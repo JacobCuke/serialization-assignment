@@ -52,7 +52,6 @@ public class ObjectCreator {
 				}
 				
 				isChoiceValid = true;
-				System.out.println("You chose: " + choice);
 				System.out.println();
 				
 				// TODO: Create objects accordingly
@@ -110,9 +109,13 @@ public class ObjectCreator {
 		
 		ObjectA objectA = new ObjectA(x, y);
 		
-		// TODO: Serialize
 		System.out.println("Object Created");
+		System.out.println();
+		
+		// TODO: Serialize
 		System.out.println("Serializing...");
+		
+		// TODO: sendObject(JsonObject json)
 		
 	}
 	
@@ -145,9 +148,13 @@ public class ObjectCreator {
 		objectB1.setOther(objectB2);
 		objectB2.setOther(objectB1);
 		
-		// TODO: Serialize
 		System.out.println("Object Created");
+		System.out.println();
+		
+		// TODO: Serialize
 		System.out.println("Serializing...");
+		
+		// TODO: sendObject(JsonObject json)
 		
 	}
 	
@@ -172,9 +179,13 @@ public class ObjectCreator {
 		
 		ObjectC objectC = new ObjectC(a);
 		
-		// TODO: Serialize
 		System.out.println("Object Created");
+		System.out.println();
+		
+		// TODO: Serialize
 		System.out.println("Serializing...");
+		
+		// TODO: sendObject(JsonObject json)
 		
 	}
 	
@@ -207,9 +218,13 @@ public class ObjectCreator {
 		
 		ObjectD objectD = new ObjectD(b);
 		
-		// TODO: Serialize
 		System.out.println("Object Created");
+		System.out.println();
+		
+		// TODO: Serialize
 		System.out.println("Serializing...");
+		
+		// TODO: sendObject(JsonObject json)
 		
 	}
 	
@@ -242,9 +257,13 @@ public class ObjectCreator {
 		
 		ObjectE objectE = new ObjectE(c);
 		
-		// TODO: Serialize
 		System.out.println("Object Created");
+		System.out.println();
+		
+		// TODO: Serialize
 		System.out.println("Serializing...");
+		
+		// TODO: sendObject(JsonObject json)
 		
 	}
 
