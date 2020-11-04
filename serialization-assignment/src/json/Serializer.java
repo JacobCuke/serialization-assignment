@@ -1,5 +1,6 @@
 package json;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import javax.json.*;
 
@@ -15,7 +16,7 @@ public class Serializer {
 
     public static JsonObject serializeObject(Object object) throws Exception {
     	
-        JsonArrayBuilder objectList = Json.createArrayBuilder();
+    	JsonArrayBuilder objectList = Json.createArrayBuilder();
         serializeHelper(object, objectList, new IdentityHashMap());
         JsonObjectBuilder jsonBaseObject = Json.createObjectBuilder();
         jsonBaseObject.add("objects", objectList);
@@ -32,6 +33,30 @@ public class Serializer {
         
         objectInfo.add("class", objectClass.getName());
         objectInfo.add("id", objectID);
+        
+        if (objectClass.isArray()) {
+        	objectInfo.add("type", "array");
+        } else {
+        	objectInfo.add("type", "object");
+        }
+        
+        // TODO: Fields
+        JsonArrayBuilder fieldList = Json.createArrayBuilder();
+        Field[] fields = objectClass.getDeclaredFields();
+        
+        for (Field f : fields) {
+        	
+        	f.setAccessible(true);
+        	JsonObjectBuilder fieldInfo = Json.createObjectBuilder();
+        	fieldInfo.add("name", f.getName());
+        	fieldInfo.add("declaringclass", f.getDeclaringClass().getName());
+        	// TODO: Handle objects
+        	fieldInfo.add("value", f.get(source).toString());
+        	fieldList.add(fieldInfo);
+        	
+        }
+        
+        objectInfo.add("fields", fieldList);
         
         objectList.add(objectInfo);
         
