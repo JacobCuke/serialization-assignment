@@ -4,14 +4,21 @@ import java.util.Scanner;
 
 public class ObjectCreator {
 	
-	public static void main(String[] args) {
-		
-		runMenu();
+	private Scanner scan = new Scanner(System.in);
+	
+	private Scanner getScanner() {
+		return scan;
 	}
 	
-	private static void runMenu() {
+	public static void main(String[] args) {
 		
-		Scanner scan = new Scanner(System.in);
+		ObjectCreator oc = new ObjectCreator();
+		oc.runMenu();
+	}
+	
+	private void runMenu() {
+		
+		Scanner scan = getScanner();
 		boolean quit = false;
 		
 		while(!quit) {
@@ -53,6 +60,8 @@ public class ObjectCreator {
 					sendObjectA();
 					break;
 				case 2:
+					sendObjectB();
+					break;
 				case 3:
 				case 4:
 				case 5:
@@ -70,9 +79,9 @@ public class ObjectCreator {
 		
 	}
 	
-	private static void sendObjectA() {
+	private void sendObjectA() {
 		
-		Scanner scan = new Scanner(System.in);
+		Scanner scan = getScanner();
 		
 		// Ask for user input
 		System.out.println("Creating Object...");
@@ -95,10 +104,44 @@ public class ObjectCreator {
 		float y = scan.nextFloat();
 		scan.nextLine();
 		
-		scan.close();
-		
 		// Create object
 		ObjectA objectA = new ObjectA(x, y);
+		
+		// TODO: Serialize
+		System.out.println("Object Created");
+		System.out.println("Serializing...");
+		
+	}
+	
+	private void sendObjectB() {
+		
+		Scanner scan = getScanner();
+		
+		System.out.println("Creating Object...");
+		
+		System.out.print("Please enter a boolean value: ");
+		while(!scan.hasNextBoolean()) {
+			scan.next();
+			System.out.print("Please enter true or false: ");
+		}
+		
+		boolean z1 = scan.nextBoolean();
+		scan.nextLine();
+		
+		System.out.print("Please enter another boolean value: ");
+		while(!scan.hasNextBoolean()) {
+			scan.next();
+			System.out.print("Please enter true or false: ");
+		}
+		
+		boolean z2 = scan.nextBoolean();
+		scan.nextLine();
+		
+		ObjectB objectB1 = new ObjectB(z1);
+		ObjectB objectB2 = new ObjectB(z2);
+		
+		objectB1.setOther(objectB2);
+		objectB2.setOther(objectB1);
 		
 		// TODO: Serialize
 		System.out.println("Object Created");

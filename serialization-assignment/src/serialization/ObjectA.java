@@ -2,8 +2,8 @@ package serialization;
 
 public class ObjectA {
 
-	public int x;
-	public float y;
+	private int x;
+	private float y;
 	
 	public ObjectA(int x, float y) {
 		this.x = x;
