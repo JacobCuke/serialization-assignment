@@ -163,7 +163,6 @@ public class ObjectCreator {
 		System.out.println("Object Created");
 		System.out.println();
 		
-		// TODO: Serialize
 		System.out.println("Serializing...");
 		JsonObject json = null;
 		json = Serializer.serializeObject(objectB1);
@@ -173,7 +172,7 @@ public class ObjectCreator {
 		
 	}
 	
-	private void sendObjectC() {
+	private void sendObjectC() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -182,7 +181,7 @@ public class ObjectCreator {
 		
 		for (int i = 0; i < 5; i++) {
 			
-			System.out.println("Please enter integer " + (i+1) + ": ");
+			System.out.print("Please enter integer " + (i+1) + ": ");
 			while (!scan.hasNextInt()) {
 				scan.next();
 				System.out.println("Value must be an integer: ");
@@ -199,6 +198,9 @@ public class ObjectCreator {
 		
 		// TODO: Serialize
 		System.out.println("Serializing...");
+		JsonObject json = null;
+		json = Serializer.serializeObject(objectC);
+		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
 		
