@@ -1,5 +1,6 @@
 package serialization;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ObjectCreator {
@@ -69,6 +70,7 @@ public class ObjectCreator {
 					sendObjectD();
 					break;
 				case 5:
+					sendObjectE();
 					break;
 				case 6:
 					quit = true;
@@ -86,7 +88,6 @@ public class ObjectCreator {
 	private void sendObjectA() {
 		
 		Scanner scan = getScanner();
-		
 		System.out.println("Creating Object...");
 		
 		System.out.print("Please enter an integer value: ");
@@ -118,7 +119,6 @@ public class ObjectCreator {
 	private void sendObjectB() {
 		
 		Scanner scan = getScanner();
-		
 		System.out.println("Creating Object...");
 		
 		System.out.print("Please enter a boolean value: ");
@@ -154,7 +154,6 @@ public class ObjectCreator {
 	private void sendObjectC() {
 		
 		Scanner scan = getScanner();
-		
 		System.out.println("Creating Object...");
 		
 		int a[] = new int[5];
@@ -182,7 +181,6 @@ public class ObjectCreator {
 	private void sendObjectD() {
 		
 		Scanner scan = getScanner();
-		
 		System.out.println("Creating Object...");
 		
 		System.out.print("Please enter an integer value: ");
@@ -206,8 +204,43 @@ public class ObjectCreator {
 		ObjectA objectA = new ObjectA(x, y);
 		ObjectA[] b = new ObjectA[5];
 		b[3] = objectA;
+		
 		ObjectD objectD = new ObjectD(b);
 		
+		// TODO: Serialize
+		System.out.println("Object Created");
+		System.out.println("Serializing...");
+		
+	}
+	
+	private void sendObjectE() {
+		
+		Scanner scan = getScanner();
+		System.out.println("Creating Object...");
+		
+		System.out.print("Please enter an integer value: ");
+		while (!scan.hasNextInt()) {
+			scan.next();
+			System.out.print("Value must be an integer: ");
+		}
+		
+		int x = scan.nextInt();
+		scan.nextLine();
+		
+		System.out.print("Please enter a float: ");
+		while (!scan.hasNextFloat()) {
+			scan.next();
+			System.out.print("Value must be a float: ");
+		}
+		
+		float y = scan.nextFloat();
+		scan.nextLine();
+		
+		ObjectA objectA = new ObjectA(x, y);
+		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
+		c.add(objectA);
+		
+		ObjectE objectE = new ObjectE(c);
 		
 		// TODO: Serialize
 		System.out.println("Object Created");
