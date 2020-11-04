@@ -196,7 +196,6 @@ public class ObjectCreator {
 		System.out.println("Object Created");
 		System.out.println();
 		
-		// TODO: Serialize
 		System.out.println("Serializing...");
 		JsonObject json = null;
 		json = Serializer.serializeObject(objectC);
