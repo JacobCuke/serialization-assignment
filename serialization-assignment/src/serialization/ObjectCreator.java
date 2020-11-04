@@ -6,11 +6,10 @@ public class ObjectCreator {
 	
 	public static void main(String[] args) {
 		
-		ObjectCreator oc = new ObjectCreator();
-		oc.runMenu();
+		runMenu();
 	}
 	
-	private void runMenu() {
+	private static void runMenu() {
 		
 		Scanner scan = new Scanner(System.in);
 		boolean quit = false;
@@ -49,14 +48,61 @@ public class ObjectCreator {
 				System.out.println();
 				
 				// TODO: Create objects accordingly
-				
-				if (choice == 6) quit = true;
-			
+				switch (choice) {
+				case 1:
+					sendObjectA();
+					break;
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+					break;
+				case 6:
+					quit = true;
+					break;
+					
+				}
 			}
 		}
 		
 		System.out.println("Quitting");
 		scan.close();
+		
+	}
+	
+	private static void sendObjectA() {
+		
+		Scanner scan = new Scanner(System.in);
+		
+		// Ask for user input
+		System.out.println("Creating Object...");
+		
+		System.out.print("Please enter an integer value: ");
+		while (!scan.hasNextInt()) {
+			scan.next();
+			System.out.print("Value must be an integer: ");
+		}
+		
+		int x = scan.nextInt();
+		scan.nextLine();
+		
+		System.out.print("Please enter a float: ");
+		while (!scan.hasNextFloat()) {
+			scan.next();
+			System.out.print("Value must be a float: ");
+		}
+		
+		float y = scan.nextFloat();
+		scan.nextLine();
+		
+		scan.close();
+		
+		// Create object
+		ObjectA objectA = new ObjectA(x, y);
+		
+		// TODO: Serialize
+		System.out.println("Object Created");
+		System.out.println("Serializing...");
 		
 	}
 
