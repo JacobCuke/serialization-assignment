@@ -50,8 +50,27 @@ public class Serializer {
         	JsonObjectBuilder fieldInfo = Json.createObjectBuilder();
         	fieldInfo.add("name", f.getName());
         	fieldInfo.add("declaringclass", f.getDeclaringClass().getName());
-        	// TODO: Handle objects
-        	fieldInfo.add("value", f.get(source).toString());
+        	
+        	if (f.getType().isPrimitive()) {
+        		
+        		fieldInfo.add("value", f.get(source).toString());
+        		
+        	} else {
+        		
+        		Object ob = f.get(source);
+        		if (objectTrackingMap.containsKey(ob)) {
+        			
+        			fieldInfo.add("reference", objectTrackingMap.get(ob).toString());
+        			
+        		} else {
+        			
+        			fieldInfo.add("reference", Integer.toString(objectTrackingMap.size()));
+        			serializeHelper(ob, objectList, objectTrackingMap);
+        			
+        		}
+        		
+        	}
+        	
         	fieldList.add(fieldInfo);
         	
         }
