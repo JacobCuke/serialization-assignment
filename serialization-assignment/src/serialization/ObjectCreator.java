@@ -66,6 +66,8 @@ public class ObjectCreator {
 					sendObjectC();
 					break;
 				case 4:
+					sendObjectD();
+					break;
 				case 5:
 					break;
 				case 6:
@@ -85,7 +87,6 @@ public class ObjectCreator {
 		
 		Scanner scan = getScanner();
 		
-		// Ask for user input
 		System.out.println("Creating Object...");
 		
 		System.out.print("Please enter an integer value: ");
@@ -106,7 +107,6 @@ public class ObjectCreator {
 		float y = scan.nextFloat();
 		scan.nextLine();
 		
-		// Create object
 		ObjectA objectA = new ObjectA(x, y);
 		
 		// TODO: Serialize
@@ -172,6 +172,42 @@ public class ObjectCreator {
 		}
 		
 		ObjectC objectC = new ObjectC(a);
+		
+		// TODO: Serialize
+		System.out.println("Object Created");
+		System.out.println("Serializing...");
+		
+	}
+	
+	private void sendObjectD() {
+		
+		Scanner scan = getScanner();
+		
+		System.out.println("Creating Object...");
+		
+		System.out.print("Please enter an integer value: ");
+		while (!scan.hasNextInt()) {
+			scan.next();
+			System.out.print("Value must be an integer: ");
+		}
+		
+		int x = scan.nextInt();
+		scan.nextLine();
+		
+		System.out.print("Please enter a float: ");
+		while (!scan.hasNextFloat()) {
+			scan.next();
+			System.out.print("Value must be a float: ");
+		}
+		
+		float y = scan.nextFloat();
+		scan.nextLine();
+		
+		ObjectA objectA = new ObjectA(x, y);
+		ObjectA[] b = new ObjectA[5];
+		b[3] = objectA;
+		ObjectD objectD = new ObjectD(b);
+		
 		
 		// TODO: Serialize
 		System.out.println("Object Created");
