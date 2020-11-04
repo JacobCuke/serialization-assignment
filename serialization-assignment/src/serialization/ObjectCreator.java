@@ -3,6 +3,10 @@ package serialization;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.json.JsonObject;
+
+import json.Serializer;
+
 public class ObjectCreator {
 	
 	private Scanner scan = new Scanner(System.in);
@@ -54,27 +58,33 @@ public class ObjectCreator {
 				isChoiceValid = true;
 				System.out.println();
 				
-				// TODO: Create objects accordingly
-				switch (choice) {
-				case 1:
-					sendObjectA();
-					break;
-				case 2:
-					sendObjectB();
-					break;
-				case 3:
-					sendObjectC();
-					break;
-				case 4:
-					sendObjectD();
-					break;
-				case 5:
-					sendObjectE();
-					break;
-				case 6:
-					quit = true;
-					break;
+				try {
 					
+					switch (choice) {
+					case 1:
+						sendObjectA();
+						break;
+					case 2:
+						sendObjectB();
+						break;
+					case 3:
+						sendObjectC();
+						break;
+					case 4:
+						sendObjectD();
+						break;
+					case 5:
+						sendObjectE();
+						break;
+					case 6:
+						quit = true;
+						break;
+						
+					}
+					
+				} catch (Exception e) {
+					System.err.println("Error Occured");
+					e.printStackTrace();
 				}
 			}
 		}
@@ -84,7 +94,7 @@ public class ObjectCreator {
 		
 	}
 	
-	private void sendObjectA() {
+	private void sendObjectA() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -114,6 +124,9 @@ public class ObjectCreator {
 		
 		// TODO: Serialize
 		System.out.println("Serializing...");
+		JsonObject json = null;
+		json = Serializer.serializeObject(objectA);
+		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
 		
