@@ -2,8 +2,8 @@ package serialization;
 
 public class ObjectB {
 
-	public boolean z;
-	public ObjectB other;
+	private boolean z;
+	private ObjectB other;
 	
 	public ObjectB(boolean z) {
 		this.z = z;

@@ -63,6 +63,8 @@ public class ObjectCreator {
 					sendObjectB();
 					break;
 				case 3:
+					sendObjectC();
+					break;
 				case 4:
 				case 5:
 					break;
@@ -142,6 +144,34 @@ public class ObjectCreator {
 		
 		objectB1.setOther(objectB2);
 		objectB2.setOther(objectB1);
+		
+		// TODO: Serialize
+		System.out.println("Object Created");
+		System.out.println("Serializing...");
+		
+	}
+	
+	private void sendObjectC() {
+		
+		Scanner scan = getScanner();
+		
+		System.out.println("Creating Object...");
+		
+		int a[] = new int[5];
+		
+		for (int i = 0; i < 5; i++) {
+			
+			System.out.println("Please enter integer " + (i+1) + ": ");
+			while (!scan.hasNextInt()) {
+				scan.next();
+				System.out.println("Value must be an integer: ");
+			}
+			
+			a[i] = scan.nextInt();
+			scan.nextLine();
+		}
+		
+		ObjectC objectC = new ObjectC(a);
 		
 		// TODO: Serialize
 		System.out.println("Object Created");
