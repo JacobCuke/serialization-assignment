@@ -2,8 +2,6 @@ package json;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 import javax.json.JsonObject;
@@ -74,21 +72,17 @@ class SerializerTest {
 	}
 	
 	@Test
-	void testGetAllFields() throws Exception {
+	void testObjectE() throws Exception {
 		
 		ObjectA objectA = new ObjectA(1, 2.0f);
 		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
 		c.add(objectA);
 		
-		ArrayList<Field> fields = Serializer.getAllFields(c.getClass());
+		ObjectE objectE = new ObjectE(c);
+		JsonObject json = Serializer.serializeObject(objectE);
 		
-		for (Field f : fields) {
-			
-			System.out.println(f.getName());
-			System.out.println(f.getType());
-			System.out.println(Modifier.toString(f.getModifiers()));
-			
-		}
+		String correct = "{\"objects\":[{\"class\":\"serialization.ObjectA\",\"id\":\"3\",\"type\":\"object\",\"fields\":[{\"name\":\"x\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"1\"},{\"name\":\"y\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"2.0\"}]},{\"class\":\"[Ljava.lang.Object;\",\"id\":\"2\",\"type\":\"array\",\"length\":\"10\",\"entries\":[{\"reference\":\"3\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"}]},{\"class\":\"java.util.ArrayList\",\"id\":\"1\",\"type\":\"object\",\"fields\":[{\"name\":\"elementData\",\"declaringclass\":\"java.util.ArrayList\",\"reference\":\"2\"},{\"name\":\"size\",\"declaringclass\":\"java.util.ArrayList\",\"value\":\"1\"},{\"name\":\"modCount\",\"declaringclass\":\"java.util.AbstractList\",\"value\":\"1\"}]},{\"class\":\"serialization.ObjectE\",\"id\":\"0\",\"type\":\"object\",\"fields\":[{\"name\":\"c\",\"declaringclass\":\"serialization.ObjectE\",\"reference\":\"1\"}]}]}";
+		assertEquals(json.toString(), correct);
 		
 	}
 

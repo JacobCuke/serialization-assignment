@@ -19,18 +19,18 @@ public class Serializer {
     public static JsonObject serializeObject(Object object) throws Exception {
     	
     	JsonArrayBuilder objectList = Json.createArrayBuilder();
-        serializeHelper(object, objectList, new IdentityHashMap());
+        serializeHelper(object, objectList, new IdentityHashMap<Object, String>());
         JsonObjectBuilder jsonBaseObject = Json.createObjectBuilder();
         jsonBaseObject.add("objects", objectList);
         return jsonBaseObject.build();
         
     }
 
-    private static void serializeHelper(Object source, JsonArrayBuilder objectList, Map objectTrackingMap) throws Exception {
+    private static void serializeHelper(Object source, JsonArrayBuilder objectList, Map<Object, String> objectTrackingMap) throws Exception {
     	
         String objectID = Integer.toString(objectTrackingMap.size());
         objectTrackingMap.put(source, objectID);
-        Class objectClass = source.getClass();
+        Class<?> objectClass = source.getClass();
         JsonObjectBuilder objectInfo = Json.createObjectBuilder();
         
         objectInfo.add("class", objectClass.getName());
@@ -131,7 +131,7 @@ public class Serializer {
         
     }
     
-    protected static ArrayList<Field> getAllFields(Class objectClass) {
+    protected static ArrayList<Field> getAllFields(Class<?> objectClass) {
     	
     	ArrayList<Field> fields = new ArrayList<Field>();
     	
@@ -144,7 +144,7 @@ public class Serializer {
     		
     	}
     	
-    	Class superClass = objectClass.getSuperclass();
+    	Class<?> superClass = objectClass.getSuperclass();
     	
     	if (superClass != null) {
     		
