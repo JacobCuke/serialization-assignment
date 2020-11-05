@@ -53,6 +53,11 @@ public class Serializer {
         		} else {
         			
         			// TODO: Deal with null objects
+        			if (e == null) {
+        				entryInfo.add("reference", "null");
+        				entryList.add(entryInfo);
+        				continue;
+        			}
         			
         			if (objectTrackingMap.containsKey(e)) {
             			
@@ -98,6 +103,11 @@ public class Serializer {
         		Object ob = f.get(source);
         		
         		// TODO: Deal with null objects
+        		if (ob == null) {
+        			fieldInfo.add("reference", "null");
+        			fieldList.add(fieldInfo);
+        			continue;
+        		}
         		
         		if (objectTrackingMap.containsKey(ob)) {
         			

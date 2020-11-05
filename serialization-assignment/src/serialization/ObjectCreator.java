@@ -123,8 +123,7 @@ public class ObjectCreator {
 		System.out.println();
 		
 		System.out.println("Serializing...");
-		JsonObject json = null;
-		json = Serializer.serializeObject(objectA);
+		JsonObject json = Serializer.serializeObject(objectA);
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
@@ -164,8 +163,7 @@ public class ObjectCreator {
 		System.out.println();
 		
 		System.out.println("Serializing...");
-		JsonObject json = null;
-		json = Serializer.serializeObject(objectB1);
+		JsonObject json = Serializer.serializeObject(objectB1);
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
@@ -197,15 +195,14 @@ public class ObjectCreator {
 		System.out.println();
 		
 		System.out.println("Serializing...");
-		JsonObject json = null;
-		json = Serializer.serializeObject(objectC);
+		JsonObject json = Serializer.serializeObject(objectC);
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
 		
 	}
 	
-	private void sendObjectD() {
+	private void sendObjectD() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -237,8 +234,9 @@ public class ObjectCreator {
 		System.out.println("Object Created");
 		System.out.println();
 		
-		// TODO: Serialize
 		System.out.println("Serializing...");
+		JsonObject json = Serializer.serializeObject(objectD);
+		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
 		
