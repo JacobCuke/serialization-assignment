@@ -2,6 +2,8 @@ package json;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 import javax.json.JsonObject;
@@ -68,6 +70,25 @@ class SerializerTest {
 		
 		String correct = "{\"objects\":[{\"class\":\"serialization.ObjectA\",\"id\":\"2\",\"type\":\"object\",\"fields\":[{\"name\":\"x\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"1\"},{\"name\":\"y\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"2.0\"}]},{\"class\":\"[Lserialization.ObjectA;\",\"id\":\"1\",\"type\":\"array\",\"length\":\"5\",\"entries\":[{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"2\"},{\"reference\":\"null\"}]},{\"class\":\"serialization.ObjectD\",\"id\":\"0\",\"type\":\"object\",\"fields\":[{\"name\":\"b\",\"declaringclass\":\"serialization.ObjectD\",\"reference\":\"1\"}]}]}";
 		assertEquals(json.toString(), correct);
+		
+	}
+	
+	@Test
+	void testGetAllFields() throws Exception {
+		
+		ObjectA objectA = new ObjectA(1, 2.0f);
+		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
+		c.add(objectA);
+		
+		ArrayList<Field> fields = Serializer.getAllFields(c.getClass());
+		
+		for (Field f : fields) {
+			
+			System.out.println(f.getName());
+			System.out.println(f.getType());
+			System.out.println(Modifier.toString(f.getModifiers()));
+			
+		}
 		
 	}
 

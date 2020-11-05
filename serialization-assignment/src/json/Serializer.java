@@ -2,6 +2,7 @@ package json;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import javax.json.*;
 
@@ -51,8 +52,7 @@ public class Serializer {
         			entryInfo.add("value", e.toString());
         			
         		} else {
-        			
-        			// TODO: Deal with null objects
+
         			if (e == null) {
         				entryInfo.add("reference", "null");
         				entryList.add(entryInfo);
@@ -81,11 +81,12 @@ public class Serializer {
         	return;
         	
         }
-        	
+        
+        // Object is not an array	
         objectInfo.add("type", "object");
         
         JsonArrayBuilder fieldList = Json.createArrayBuilder();
-        Field[] fields = objectClass.getDeclaredFields();
+        ArrayList<Field> fields = getAllFields(objectClass);
         
         for (Field f : fields) {
         	
@@ -102,7 +103,6 @@ public class Serializer {
         		
         		Object ob = f.get(source);
         		
-        		// TODO: Deal with null objects
         		if (ob == null) {
         			fieldInfo.add("reference", "null");
         			fieldList.add(fieldInfo);
@@ -129,6 +129,31 @@ public class Serializer {
         objectInfo.add("fields", fieldList);
         objectList.add(objectInfo);
         
+    }
+    
+    protected static ArrayList<Field> getAllFields(Class objectClass) {
+    	
+    	ArrayList<Field> fields = new ArrayList<Field>();
+    	
+    	Field[] childFields = objectClass.getDeclaredFields();
+    	for (Field f : childFields) {
+    		
+    		if (!Modifier.isStatic(f.getModifiers())) {
+    			fields.add(f);
+    		}
+    		
+    	}
+    	
+    	Class superClass = objectClass.getSuperclass();
+    	
+    	if (superClass != null) {
+    		
+    		fields.addAll(getAllFields(superClass));
+    		
+    	}
+    	
+    	return fields;
+    	
     }
 
 }

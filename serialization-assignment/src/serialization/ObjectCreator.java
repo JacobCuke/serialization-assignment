@@ -242,7 +242,7 @@ public class ObjectCreator {
 		
 	}
 	
-	private void sendObjectE() {
+	private void sendObjectE() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -276,6 +276,8 @@ public class ObjectCreator {
 		
 		// TODO: Serialize
 		System.out.println("Serializing...");
+		JsonObject json = Serializer.serializeObject(objectE);
+		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
 		
