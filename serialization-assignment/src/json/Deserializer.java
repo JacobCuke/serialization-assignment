@@ -28,22 +28,43 @@ public class Deserializer {
 			JsonObject objectInfo = objectList.getJsonObject(i);
 			Class<?> objectClass = Class.forName(objectInfo.getString("class"));
 			
-			// Instatiate object
-			Constructor<?> constructor = objectClass.getDeclaredConstructor();
-			if (!Modifier.isPublic(constructor.getModifiers())) {
-				constructor.setAccessible(true);
+			// Determine if object is an array
+			if (objectInfo.getString("type").equals("array")) {
+				
+				int length = Integer.parseInt(objectInfo.getString("length"));
+				Class<?> componentType = objectClass.getComponentType();
+				Object objectInstance = Array.newInstance(componentType, length);
+				
+				objectTrackingMap.put(objectInfo.getString("id"), objectInstance);
+				
+			} else {
+				
+				Constructor<?> constructor = objectClass.getDeclaredConstructor();
+				if (!Modifier.isPublic(constructor.getModifiers())) {
+					constructor.setAccessible(true);
+				}
+				Object objectInstance = constructor.newInstance();
+				
+				objectTrackingMap.put(objectInfo.getString("id"), objectInstance);
+				
 			}
-			Object objectInstance = constructor.newInstance();
 			
-			//Make object
-			objectTrackingMap.put(objectInfo.getString("id"), objectInstance);
 		}
 	}
 
 	private static void assignFieldValues(Map<String, Object> objectTrackingMap, JsonArray objectList) throws Exception {
 		
 		for (int i = 0; i < objectList.size(); i++) {
+			
 			JsonObject objectInfo = objectList.getJsonObject(i);
+			
+			if (objectInfo.getString("type").equals("array")) {
+				
+				assignArrayValues(objectTrackingMap, objectInfo);
+				continue;
+				
+			}
+			
 			Class<?> objectClass = Class.forName(objectInfo.getString("class"));
 			
 			Object objectInstance = objectTrackingMap.get(objectInfo.getString("id"));
@@ -58,7 +79,6 @@ public class Deserializer {
 				Field field = objectClass.getDeclaredField(fieldInfo.getString("name"));
 				field.setAccessible(true);
 				
-				// TODO: Determine if field is a primitive or reference to object
 				if (fieldInfo.containsKey("value")) {
 					
 					Class<?> fieldType = field.getType();
@@ -80,13 +100,42 @@ public class Deserializer {
 					
 				} else {
 					
-					// TODO: Handle fields that contain references
 					String referenceID = fieldInfo.getString("reference");
 					Object referenceObject = objectTrackingMap.get(referenceID);
 					
 					field.set(objectInstance, referenceObject);
 					
 				}
+				
+			}
+			
+		}
+		
+	}
+	
+	private static void assignArrayValues(Map<String, Object> objectTrackingMap, JsonObject objectInfo) {
+		
+		Object objectInstance = objectTrackingMap.get(objectInfo.getString("id"));
+		Class<?> componentType = objectInstance.getClass().getComponentType();
+		
+		JsonArray entryList = objectInfo.getJsonArray("entries");
+		
+		for (int i = 0; i < entryList.size(); i++) {
+			
+			JsonObject entryInfo = entryList.getJsonObject(i);
+			
+			// TODO: Handle more primitive types
+			if (componentType.equals(Integer.TYPE)) {
+				
+				Array.set(objectInstance, i, Integer.parseInt(entryInfo.getString("value")));
+				
+			} else if (componentType.equals(Float.TYPE)) {
+				
+				Array.set(objectInstance, i, Float.parseFloat(entryInfo.getString("value")));
+				
+			} else if (componentType.equals(Boolean.TYPE)) {
+				
+				Array.set(objectInstance, i, Boolean.parseBoolean(entryInfo.getString("value")));
 				
 			}
 			

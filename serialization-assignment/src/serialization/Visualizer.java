@@ -24,12 +24,17 @@ public class Visualizer {
 		//		
 		//		Object object = Deserializer.deserializeObject(json);
 
-		ObjectB objectB1 = new ObjectB(true);
-		ObjectB objectB2 = new ObjectB(false);
-		objectB1.setOther(objectB2);
-		objectB2.setOther(objectB1);
-
-		JsonObject json = Serializer.serializeObject(objectB1);
+//		ObjectB objectB1 = new ObjectB(true);
+//		ObjectB objectB2 = new ObjectB(false);
+//		objectB1.setOther(objectB2);
+//		objectB2.setOther(objectB1);
+//
+//		JsonObject json = Serializer.serializeObject(objectB1);
+//		Object object = Deserializer.deserializeObject(json);
+		
+		int[] a = {0, 0, 0, 3, 0};
+		ObjectC objectC = new ObjectC(a);
+		JsonObject json = Serializer.serializeObject(objectC);
 		Object object = Deserializer.deserializeObject(json);
 
 		// TODO: Print out
