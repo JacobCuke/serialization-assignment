@@ -58,21 +58,33 @@ public class Deserializer {
 				Field field = objectClass.getDeclaredField(fieldInfo.getString("name"));
 				field.setAccessible(true);
 				
-				Class<?> fieldType = field.getType();
-				
-				
-				// TODO: Handle more primitive types
-				if (fieldType.equals(Integer.TYPE)) {
+				// TODO: Determine if field is a primitive or reference to object
+				if (fieldInfo.containsKey("value")) {
 					
-					field.set(objectInstance, Integer.parseInt(fieldInfo.getString("value")));
+					Class<?> fieldType = field.getType();
 					
-				} else if (fieldType.equals(Float.TYPE)) {
+					// TODO: Handle more primitive types
+					if (fieldType.equals(Integer.TYPE)) {
+						
+						field.set(objectInstance, Integer.parseInt(fieldInfo.getString("value")));
+						
+					} else if (fieldType.equals(Float.TYPE)) {
+						
+						field.set(objectInstance, Float.parseFloat(fieldInfo.getString("value")));
+						
+					} else if (fieldType.equals(Boolean.TYPE)) {
+						
+						field.set(objectInstance, Boolean.parseBoolean(fieldInfo.getString("value")));
+						
+					}
 					
-					field.set(objectInstance, Float.parseFloat(fieldInfo.getString("value")));
+				} else {
 					
-				} else if (fieldType.equals(Boolean.TYPE)) {
+					// TODO: Handle fields that contain references
+					String referenceID = fieldInfo.getString("reference");
+					Object referenceObject = objectTrackingMap.get(referenceID);
 					
-					field.set(objectInstance, Boolean.parseBoolean(fieldInfo.getString("value")));
+					field.set(objectInstance, referenceObject);
 					
 				}
 				

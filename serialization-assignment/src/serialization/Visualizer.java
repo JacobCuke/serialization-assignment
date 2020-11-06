@@ -18,23 +18,30 @@ public class Visualizer {
 		// TODO: Read in JSON object from socket
 		
 		// TODO: Deserialize
-		ObjectA objectA = new ObjectA(1, 2.0f);
-		JsonObject json = Serializer.serializeObject(objectA);
+//		ObjectA objectA = new ObjectA(1, 2.0f);
+//		JsonObject json = Serializer.serializeObject(objectA);
+//		
+//		Object object = Deserializer.deserializeObject(json);
 		
+		ObjectB objectB1 = new ObjectB(true);
+		ObjectB objectB2 = new ObjectB(false);
+		objectB1.setOther(objectB2);
+		
+		JsonObject json = Serializer.serializeObject(objectB1);
 		Object object = Deserializer.deserializeObject(json);
 		
 		// TODO: Print out
 		Visualizer vis = new Visualizer();
-		vis.inspect(object, true);
+		vis.inspect(object);
 		
 	}
 
-    public void inspect(Object obj, boolean recursive) {
+    public void inspect(Object obj) {
         Class<?> c = obj.getClass();
-        inspectClass(c, obj, recursive, 0);
+        inspectClass(c, obj, 0);
     }
 
-    private void inspectClass(Class<?> c, Object obj, boolean recursive, int depth) {
+    private void inspectClass(Class<?> c, Object obj, int depth) {
     	
     	this.depth = depth;
     	
@@ -44,16 +51,16 @@ public class Visualizer {
     	
     	// Deal with array objects being passed in directly
     	if (c.isArray()) {
-			inspectArray(c, obj, recursive, depth);
+			inspectArray(c, obj, depth);
 			return;
     	}
     	
     	// Fields
-    	inspectFields(c, obj, recursive, depth);
+    	inspectFields(c, obj, depth);
     	
     }
     
-    private void inspectArray(Class<?> c, Object obj, boolean recursive, int depth) {
+    private void inspectArray(Class<?> c, Object obj, int depth) {
     	tabPrintln(" Component Type: " + c.getComponentType());
 		tabPrintln(" Length: " + Array.getLength(obj));
 		tabPrint(" Entries-> ");
@@ -76,11 +83,11 @@ public class Visualizer {
 				tabPrint("  Value (ref): ");
 				System.out.println(entry.getClass().getName() + "@" + Integer.toHexString(entry.hashCode()));
 				
-				if (recursive) {
-					tabPrintln("    -> Recursively inspect");
-					inspectClass(entry.getClass(), entry, recursive, depth+1);
-					this.depth = depth;
-				}
+
+				tabPrintln("    -> Recursively inspect");
+				inspectClass(entry.getClass(), entry, depth+1);
+				this.depth = depth;
+
 				continue;
 			}
 			
@@ -88,7 +95,7 @@ public class Visualizer {
 		}
     }
     
-    private void inspectFields(Class<?> c, Object obj, boolean recursive, int depth) {
+    private void inspectFields(Class<?> c, Object obj, int depth) {
     	tabPrintln("FIELDS ( " + c.getName() + " )");
     	tabPrint("Fields-> ");
     	Field[] fields = c.getDeclaredFields();
@@ -146,11 +153,11 @@ public class Visualizer {
 								tabPrint("   Value (ref): ");
 								System.out.println(entry.getClass().getName() + "@" + Integer.toHexString(entry.hashCode()));
 								
-								if (recursive) {
-									tabPrintln("    -> Recursively inspect");
-									inspectClass(entry.getClass(), entry, recursive, depth+1);
-									this.depth = depth;
-								}
+
+								tabPrintln("    -> Recursively inspect");
+								inspectClass(entry.getClass(), entry, depth+1);
+								this.depth = depth;
+
 								continue;
 							}
 							
@@ -165,11 +172,11 @@ public class Visualizer {
 						tabPrint("  Value (ref): ");
 						System.out.println(value.getClass().getName() + "@" + Integer.toHexString(value.hashCode()));
 						
-						if (recursive) {
-							tabPrintln("    -> Recursively inspect");
-							inspectClass(valueClass, value, recursive, depth+1);
-							this.depth = depth;
-						}
+
+						tabPrintln("    -> Recursively inspect");
+						inspectClass(valueClass, value, depth+1);
+						this.depth = depth;
+
 						continue;
 					}
 					
