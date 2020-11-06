@@ -101,7 +101,11 @@ public class Deserializer {
 				} else {
 					
 					String referenceID = fieldInfo.getString("reference");
-					Object referenceObject = objectTrackingMap.get(referenceID);
+					Object referenceObject = null;
+					
+					if (!referenceID.equals("null")) {
+						referenceObject = objectTrackingMap.get(referenceID);
+					}
 					
 					field.set(objectInstance, referenceObject);
 					
@@ -124,18 +128,34 @@ public class Deserializer {
 			
 			JsonObject entryInfo = entryList.getJsonObject(i);
 			
-			// TODO: Handle more primitive types
-			if (componentType.equals(Integer.TYPE)) {
+			if (entryInfo.containsKey("value")) {
 				
-				Array.set(objectInstance, i, Integer.parseInt(entryInfo.getString("value")));
+				// TODO: Handle more primitive types
+				if (componentType.equals(Integer.TYPE)) {
+					
+					Array.set(objectInstance, i, Integer.parseInt(entryInfo.getString("value")));
+					
+				} else if (componentType.equals(Float.TYPE)) {
+					
+					Array.set(objectInstance, i, Float.parseFloat(entryInfo.getString("value")));
+					
+				} else if (componentType.equals(Boolean.TYPE)) {
+					
+					Array.set(objectInstance, i, Boolean.parseBoolean(entryInfo.getString("value")));
+					
+				}
 				
-			} else if (componentType.equals(Float.TYPE)) {
+			} else {
+			
+				// TODO: Handle object references
+				String referenceID = entryInfo.getString("reference");
+				Object referenceObject = null;
 				
-				Array.set(objectInstance, i, Float.parseFloat(entryInfo.getString("value")));
+				if (!referenceID.equals("null")) {
+					referenceObject = objectTrackingMap.get(referenceID);
+				}
 				
-			} else if (componentType.equals(Boolean.TYPE)) {
-				
-				Array.set(objectInstance, i, Boolean.parseBoolean(entryInfo.getString("value")));
+				Array.set(objectInstance, i, referenceObject);
 				
 			}
 			

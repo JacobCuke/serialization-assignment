@@ -32,12 +32,19 @@ public class Visualizer {
 //		JsonObject json = Serializer.serializeObject(objectB1);
 //		Object object = Deserializer.deserializeObject(json);
 		
-		int[] a = {0, 0, 0, 3, 0};
-		ObjectC objectC = new ObjectC(a);
-		JsonObject json = Serializer.serializeObject(objectC);
+//		int[] a = {0, 0, 0, 3, 0};
+//		ObjectC objectC = new ObjectC(a);
+//		JsonObject json = Serializer.serializeObject(objectC);
+//		Object object = Deserializer.deserializeObject(json);
+		
+		ObjectA objectA = new ObjectA(1, 2.0f);
+		ObjectA[] b = new ObjectA[5];
+		b[3] = objectA;
+		ObjectD objectD = new ObjectD(b);
+		
+		JsonObject json = Serializer.serializeObject(objectD);
 		Object object = Deserializer.deserializeObject(json);
 
-		// TODO: Print out
 		Visualizer vis = new Visualizer();
 		vis.inspect(object);
 
