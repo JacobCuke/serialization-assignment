@@ -162,5 +162,40 @@ public class Deserializer {
 		}
 		
 	}
+	
+	public static boolean isCollection(Class c) {
+		
+		ArrayList<Class> interfaces = getAllInterfaces(c);
+		boolean found = false;
+		
+		for (Class i : interfaces) {
+			
+			System.out.println(i.getName());
+			
+			if (i.getName().equals("java.util.Collection")) {
+				found = true;
+			}
+			
+		}
+		
+		return found;
+		
+	}
+	
+	private static ArrayList<Class> getAllInterfaces(Class i) {
+		
+		ArrayList<Class> interfaces = new ArrayList<Class>();
+		Class[] childInterfaces = i.getInterfaces();
+		Collections.addAll(interfaces, childInterfaces);
+		
+		for (Class childInterface : childInterfaces) {
+			
+			interfaces.addAll(getAllInterfaces(childInterface));
+			
+		}
+		
+		return interfaces;
+		
+	}
 
 }

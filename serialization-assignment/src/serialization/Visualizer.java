@@ -37,12 +37,20 @@ public class Visualizer {
 //		JsonObject json = Serializer.serializeObject(objectC);
 //		Object object = Deserializer.deserializeObject(json);
 		
-		ObjectA objectA = new ObjectA(1, 2.0f);
-		ObjectA[] b = new ObjectA[5];
-		b[3] = objectA;
-		ObjectD objectD = new ObjectD(b);
+//		ObjectA objectA = new ObjectA(1, 2.0f);
+//		ObjectA[] b = new ObjectA[5];
+//		b[3] = objectA;
+//		ObjectD objectD = new ObjectD(b);
+//		
+//		JsonObject json = Serializer.serializeObject(objectD);
+//		Object object = Deserializer.deserializeObject(json);
 		
-		JsonObject json = Serializer.serializeObject(objectD);
+		ObjectA objectA = new ObjectA(1, 2.0f);
+		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
+		c.add(objectA);
+		ObjectE objectE = new ObjectE(c);
+		
+		JsonObject json = Serializer.serializeObject(objectE);
 		Object object = Deserializer.deserializeObject(json);
 
 		Visualizer vis = new Visualizer();
