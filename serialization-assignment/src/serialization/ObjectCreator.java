@@ -1,19 +1,23 @@
 package serialization;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 
 import json.Serializer;
 
 public class ObjectCreator {
 	
 	private Scanner scan = new Scanner(System.in);
-	
-	private Scanner getScanner() {
-		return scan;
-	}
+	private ServerSocket serverSocket;
+	private Socket clientSocket;
 	
 	public static void main(String[] args) {
 		
@@ -22,6 +26,14 @@ public class ObjectCreator {
 	}
 	
 	private void runMenu() {
+		
+		try {
+			startConnection();
+		} catch (IOException e1) {
+			System.err.println("Error starting socket connection");
+			e1.printStackTrace();
+			return;
+		}
 		
 		Scanner scan = getScanner();
 		boolean quit = false;
@@ -92,6 +104,19 @@ public class ObjectCreator {
 		System.out.println("Quitting");
 		scan.close();
 		
+		// Tell client to quit
+		JsonObjectBuilder baseObject = Json.createObjectBuilder();
+		baseObject.add("quit", "");
+		JsonObject jsonQuit = baseObject.build();
+		
+		try {
+			sendObject(jsonQuit);
+			closeConnection();
+		} catch (IOException e) {
+			System.err.println("Error closing socket connection");
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void sendObjectA() throws Exception {
@@ -127,6 +152,7 @@ public class ObjectCreator {
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		sendObject(json);
 		
 	}
 	
@@ -167,6 +193,7 @@ public class ObjectCreator {
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		sendObject(json);
 		
 	}
 	
@@ -199,6 +226,7 @@ public class ObjectCreator {
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		sendObject(json);
 		
 	}
 	
@@ -239,6 +267,7 @@ public class ObjectCreator {
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		sendObject(json);
 		
 	}
 	
@@ -280,7 +309,34 @@ public class ObjectCreator {
 		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		sendObject(json);
+	}
+	
+	private void sendObject(JsonObject json) throws IOException {
 		
+		JsonWriter jsonWriter = Json.createWriter(clientSocket.getOutputStream());
+		jsonWriter.writeObject(json);
+		
+	}
+	
+	private void startConnection() throws IOException {
+		
+		serverSocket = new ServerSocket(6666);
+		System.out.println("Attempting to connect to client...");
+		clientSocket = serverSocket.accept();
+		System.out.println("Connected");
+		
+	}
+	
+	private void closeConnection() throws IOException {
+		
+		serverSocket.close();
+		clientSocket.close();
+		
+	}
+	
+	private Scanner getScanner() {
+		return scan;
 	}
 
 }

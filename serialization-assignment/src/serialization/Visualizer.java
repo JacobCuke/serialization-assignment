@@ -1,11 +1,16 @@
 package serialization;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 import json.Deserializer;
 import json.Serializer;
@@ -13,47 +18,30 @@ import json.Serializer;
 public class Visualizer {
 
 	private int depth = 0;
+	private Socket clientSocket;
 
 	public static void main(String args[]) throws Exception {
 
 		// TODO: Read in JSON object from socket
-
-//		ObjectA objectA = new ObjectA(1, 2.0f);
-//		JsonObject json = Serializer.serializeObject(objectA);
-//		
-//		Object object = Deserializer.deserializeObject(json);
-
-//		ObjectB objectB1 = new ObjectB(true);
-//		ObjectB objectB2 = new ObjectB(false);
-//		objectB1.setOther(objectB2);
-//		objectB2.setOther(objectB1);
-//
-//		JsonObject json = Serializer.serializeObject(objectB1);
-//		Object object = Deserializer.deserializeObject(json);
-		
-//		int[] a = {0, 0, 0, 3, 0};
-//		ObjectC objectC = new ObjectC(a);
-//		JsonObject json = Serializer.serializeObject(objectC);
-//		Object object = Deserializer.deserializeObject(json);
-		
-//		ObjectA objectA = new ObjectA(1, 2.0f);
-//		ObjectA[] b = new ObjectA[5];
-//		b[3] = objectA;
-//		ObjectD objectD = new ObjectD(b);
-//		
-//		JsonObject json = Serializer.serializeObject(objectD);
-//		Object object = Deserializer.deserializeObject(json);
-		
-		ObjectA objectA = new ObjectA(1, 2.0f);
-		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
-		c.add(objectA);
-		ObjectE objectE = new ObjectE(c);
-		
-		JsonObject json = Serializer.serializeObject(objectE);
-		Object object = Deserializer.deserializeObject(json);
-
 		Visualizer vis = new Visualizer();
-		vis.inspect(object);
+		vis.startConnection();
+		
+		while (true) {
+			
+			// Read
+			JsonObject json = vis.readObject();
+			if (json.containsKey("quit")) {
+				break;
+			}
+			
+			// Deserialize
+			Object object = Deserializer.deserializeObject(json);
+			// Visualize
+			vis.inspect(object);
+			
+		}
+		
+		vis.closeConnection();
 
 	}
 
@@ -252,6 +240,25 @@ public class Visualizer {
 			System.out.print("\t");
 		}
 		System.out.print(string);
+	}
+	
+	private void startConnection() throws UnknownHostException, IOException {
+		
+		clientSocket = new Socket("127.0.0.1", 6666);
+		
+	}
+	
+	private void closeConnection() throws IOException {
+		
+		clientSocket.close();
+		
+	}
+	
+	private JsonObject readObject() throws IOException {
+		
+		JsonReader jsonReader = Json.createReader(clientSocket.getInputStream());
+		return jsonReader.readObject();
+	
 	}
 
 }
