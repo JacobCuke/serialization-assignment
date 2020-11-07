@@ -40,11 +40,12 @@ public class ObjectCreator {
 		
 		while(!quit) {
 			
-			System.out.println("1. Object A");
-			System.out.println("2. Object B");
-			System.out.println("3. Object C");
-			System.out.println("4. Object D");
-			System.out.println("5. Object E");
+			System.out.println("Send an object with...");
+			System.out.println("1. Primitive fields");
+			System.out.println("2. References to other objects");
+			System.out.println("3. An array of primitives");
+			System.out.println("4. An array of object references");
+			System.out.println("5. A Java Collection (ArrayList) of other objects");
 			System.out.println("6. Quit");
 			
 			boolean isChoiceValid = false;
