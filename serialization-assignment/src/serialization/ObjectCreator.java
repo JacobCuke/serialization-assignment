@@ -101,7 +101,6 @@ public class ObjectCreator {
 			}
 		}
 		
-		System.out.println("Quitting");
 		scan.close();
 		
 		// Tell client to quit
@@ -109,6 +108,7 @@ public class ObjectCreator {
 		baseObject.add("quit", "");
 		JsonObject jsonQuit = baseObject.build();
 		
+		System.out.println("Closing connection...");
 		try {
 			sendObject(jsonQuit);
 			closeConnection();
@@ -116,6 +116,8 @@ public class ObjectCreator {
 			System.err.println("Error closing socket connection");
 			e.printStackTrace();
 		}
+		System.out.println("Connection closed");
+		System.out.println("Quitting");
 		
 	}
 	
@@ -147,12 +149,14 @@ public class ObjectCreator {
 		System.out.println("Object Created");
 		System.out.println();
 		
-		System.out.println("Serializing...");
+		System.out.println("Serializing");
 		JsonObject json = Serializer.serializeObject(objectA);
-		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		System.out.println("Sending object");
+		System.out.println(json.toString());
 		sendObject(json);
+		System.out.println();
 		
 	}
 	
@@ -188,12 +192,14 @@ public class ObjectCreator {
 		System.out.println("Object Created");
 		System.out.println();
 		
-		System.out.println("Serializing...");
+		System.out.println("Serializing");
 		JsonObject json = Serializer.serializeObject(objectB1);
-		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		System.out.println("Sending object");
+		System.out.println(json.toString());
 		sendObject(json);
+		System.out.println();
 		
 	}
 	
@@ -221,12 +227,14 @@ public class ObjectCreator {
 		System.out.println("Object Created");
 		System.out.println();
 		
-		System.out.println("Serializing...");
+		System.out.println("Serializing");
 		JsonObject json = Serializer.serializeObject(objectC);
-		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		System.out.println("Sending object");
+		System.out.println(json.toString());
 		sendObject(json);
+		System.out.println();
 		
 	}
 	
@@ -262,12 +270,14 @@ public class ObjectCreator {
 		System.out.println("Object Created");
 		System.out.println();
 		
-		System.out.println("Serializing...");
+		System.out.println("Serializing");
 		JsonObject json = Serializer.serializeObject(objectD);
-		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		System.out.println("Sending object");
+		System.out.println(json.toString());
 		sendObject(json);
+		System.out.println();
 		
 	}
 	
@@ -304,12 +314,14 @@ public class ObjectCreator {
 		System.out.println();
 		
 		// TODO: Serialize
-		System.out.println("Serializing...");
+		System.out.println("Serializing");
 		JsonObject json = Serializer.serializeObject(objectE);
-		System.out.println(json);
 		
 		// TODO: sendObject(JsonObject json)
+		System.out.println("Sending object");
+		System.out.println(json.toString());
 		sendObject(json);
+		System.out.println();;
 	}
 	
 	private void sendObject(JsonObject json) throws IOException {
@@ -322,9 +334,10 @@ public class ObjectCreator {
 	private void startConnection() throws IOException {
 		
 		serverSocket = new ServerSocket(6666);
-		System.out.println("Attempting to connect to client...");
+		System.out.println("Waiting for client...");
 		clientSocket = serverSocket.accept();
 		System.out.println("Connected");
+		System.out.println();
 		
 	}
 	

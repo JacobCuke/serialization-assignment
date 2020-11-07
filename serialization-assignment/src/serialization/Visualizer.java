@@ -26,6 +26,9 @@ public class Visualizer {
 		Visualizer vis = new Visualizer();
 		vis.startConnection();
 		
+		System.out.println("Connected to server");
+		System.out.println("Waiting for objects...");
+		
 		while (true) {
 			
 			// Read
@@ -34,14 +37,26 @@ public class Visualizer {
 				break;
 			}
 			
-			// Deserialize
+			System.out.println();
+			System.out.println("New object arrived");
+			System.out.println(json.toString());
+			
+			System.out.println("Deserializing");
 			Object object = Deserializer.deserializeObject(json);
-			// Visualize
+			
+			System.out.println("Inspecting");
+			System.out.println();
 			vis.inspect(object);
+			
+			System.out.println();
+			System.out.println("Waiting for objects...");
 			
 		}
 		
+		System.out.println("Closing connection...");
 		vis.closeConnection();
+		System.out.println("Connection closed");
+		System.out.println("Quiting");
 
 	}
 
