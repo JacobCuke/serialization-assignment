@@ -131,7 +131,7 @@ public class Serializer {
 
 	}
 
-	protected static ArrayList<Field> getAllFields(Class<?> objectClass) {
+	public static ArrayList<Field> getAllFields(Class<?> objectClass) {
 
 		ArrayList<Field> fields = new ArrayList<Field>();
 

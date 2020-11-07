@@ -88,7 +88,7 @@ public class Visualizer {
 	}
 
 	private void inspectArray(Class<?> c, Object obj, int depth, ArrayList<Object> objectTrackingList) {
-		tabPrintln(" Component Type: " + c.getComponentType());
+		tabPrintln(" Component Type: " + c.getComponentType().getName());
 		tabPrintln(" Length: " + Array.getLength(obj));
 		tabPrint(" Entries-> ");
 		if (Array.getLength(obj) == 0) {
@@ -133,21 +133,18 @@ public class Visualizer {
 	private void inspectFields(Class<?> c, Object obj, int depth, ArrayList<Object> objectTrackingList) {
 		tabPrintln("FIELDS ( " + c.getName() + " )");
 		tabPrint("Fields-> ");
-		Field[] fields = c.getDeclaredFields();
-		if (fields.length == 0) {
+		ArrayList<Field> fields = Serializer.getAllFields(c);
+		if (fields.size() == 0) {
 			System.out.println("NONE");
 		} 
 		else {
 			System.out.println();
 			for (Field f : fields) {
 				tabPrintln(" FIELD");
-				tabPrintln("  Name: " + f.getName());
-				tabPrintln("  Type: " + f.getType());
-
-				// Modifiers
-				tabPrint("  Modifiers: ");
-				int modifiers = f.getModifiers();
-				System.out.println(Modifier.toString(modifiers));
+				tabPrint("  Info: ");
+				System.out.print(Modifier.toString(f.getModifiers()) + " ");
+				System.out.print(f.getType().getTypeName() + " ");
+				System.out.println(f.getDeclaringClass().getName() + "." + f.getName());
 
 				// Value
 				f.setAccessible(true);
@@ -165,7 +162,7 @@ public class Visualizer {
 					// Check if value is an array
 					if (valueClass.isArray()) {
 						// Component type
-						tabPrintln("  Component Type: " + valueClass.getComponentType());
+						tabPrintln("  Component Type: " + valueClass.getComponentType().getName());
 						// Length
 						tabPrintln("  Length: " + Array.getLength(value));
 						// Entries
