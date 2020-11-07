@@ -76,7 +76,9 @@ public class Deserializer {
 			for (int j = 0; j < fieldList.size(); j++) {
 				
 				JsonObject fieldInfo = fieldList.getJsonObject(j);
-				Field field = objectClass.getDeclaredField(fieldInfo.getString("name"));
+				
+				Class declaringClass = Class.forName(fieldInfo.getString("declaringclass"));
+				Field field = declaringClass.getDeclaredField(fieldInfo.getString("name"));
 				field.setAccessible(true);
 				
 				if (fieldInfo.containsKey("value")) {
@@ -160,41 +162,6 @@ public class Deserializer {
 			}
 			
 		}
-		
-	}
-	
-	public static boolean isCollection(Class c) {
-		
-		ArrayList<Class> interfaces = getAllInterfaces(c);
-		boolean found = false;
-		
-		for (Class i : interfaces) {
-			
-			System.out.println(i.getName());
-			
-			if (i.getName().equals("java.util.Collection")) {
-				found = true;
-			}
-			
-		}
-		
-		return found;
-		
-	}
-	
-	private static ArrayList<Class> getAllInterfaces(Class i) {
-		
-		ArrayList<Class> interfaces = new ArrayList<Class>();
-		Class[] childInterfaces = i.getInterfaces();
-		Collections.addAll(interfaces, childInterfaces);
-		
-		for (Class childInterface : childInterfaces) {
-			
-			interfaces.addAll(getAllInterfaces(childInterface));
-			
-		}
-		
-		return interfaces;
 		
 	}
 
