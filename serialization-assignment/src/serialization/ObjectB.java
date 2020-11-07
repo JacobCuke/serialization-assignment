@@ -20,5 +20,13 @@ public class ObjectB {
 		this.other = other;
 		
 	}
+
+	public boolean isZ() {
+		return z;
+	}
+	
+	public ObjectB getOther() {
+		return other;
+	}
 	
 }

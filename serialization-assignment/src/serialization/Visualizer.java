@@ -1,7 +1,6 @@
 package serialization;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -19,11 +18,10 @@ public class Visualizer {
 
 		// TODO: Read in JSON object from socket
 
-		// TODO: Deserialize
-		//		ObjectA objectA = new ObjectA(1, 2.0f);
-		//		JsonObject json = Serializer.serializeObject(objectA);
-		//		
-		//		Object object = Deserializer.deserializeObject(json);
+//		ObjectA objectA = new ObjectA(1, 2.0f);
+//		JsonObject json = Serializer.serializeObject(objectA);
+//		
+//		Object object = Deserializer.deserializeObject(json);
 
 //		ObjectB objectB1 = new ObjectB(true);
 //		ObjectB objectB2 = new ObjectB(false);

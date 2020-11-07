@@ -11,5 +11,9 @@ public class ObjectC {
 	public ObjectC(int[] a) {
 		this.a = a;
 	}
+
+	public int[] getA() {
+		return a;
+	}
 	
 }

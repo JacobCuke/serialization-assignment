@@ -65,8 +65,6 @@ public class Deserializer {
 				
 			}
 			
-			Class<?> objectClass = Class.forName(objectInfo.getString("class"));
-			
 			Object objectInstance = objectTrackingMap.get(objectInfo.getString("id"));
 			
 			// Fields
@@ -77,7 +75,7 @@ public class Deserializer {
 				
 				JsonObject fieldInfo = fieldList.getJsonObject(j);
 				
-				Class declaringClass = Class.forName(fieldInfo.getString("declaringclass"));
+				Class<?> declaringClass = Class.forName(fieldInfo.getString("declaringclass"));
 				Field field = declaringClass.getDeclaredField(fieldInfo.getString("name"));
 				field.setAccessible(true);
 				

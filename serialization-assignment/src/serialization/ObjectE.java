@@ -13,5 +13,9 @@ public class ObjectE {
 	public ObjectE(ArrayList<ObjectA> c) {
 		this.c = c;
 	}
+
+	public ArrayList<ObjectA> getC() {
+		return c;
+	}
 	
 }
