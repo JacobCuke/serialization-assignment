@@ -75,24 +75,19 @@ public class ObjectCreator {
 					
 					switch (choice) {
 					case 1:
-						ObjectA objectA = createObjectA();
-						sendObject(objectA);
+						sendObject(createObjectA());
 						break;
 					case 2:
-						ObjectB objectB = createObjectB();
-						sendObject(objectB);
+						sendObject(createObjectB());
 						break;
 					case 3:
-						ObjectC objectC = createObjectC();
-						sendObject(objectC);
+						sendObject(createObjectC());
 						break;
 					case 4:
-						ObjectD objectD = createObjectD();
-						sendObject(objectD);
+						sendObject(createObjectD());
 						break;
 					case 5:
-						ObjectE objectE = createObjectE();
-						sendObject(objectE);
+						sendObject(createObjectE());
 						break;
 					case 6:
 						quit = true;
