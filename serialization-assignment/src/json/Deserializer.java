@@ -110,11 +110,8 @@ public class Deserializer {
 					field.set(objectInstance, referenceObject);
 					
 				}
-				
 			}
-			
 		}
-		
 	}
 	
 	private static void assignArrayValues(Map<String, Object> objectTrackingMap, JsonObject objectInfo) {
@@ -147,7 +144,6 @@ public class Deserializer {
 				
 			} else {
 			
-				// TODO: Handle object references
 				String referenceID = entryInfo.getString("reference");
 				Object referenceObject = null;
 				
@@ -158,9 +154,7 @@ public class Deserializer {
 				Array.set(objectInstance, i, referenceObject);
 				
 			}
-			
 		}
-		
 	}
 
 }

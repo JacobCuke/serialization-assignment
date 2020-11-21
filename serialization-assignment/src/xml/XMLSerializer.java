@@ -3,7 +3,6 @@ package xml;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.OutputKeys;
@@ -32,7 +31,7 @@ public class XMLSerializer {
 
 	public static void main(String[] args) throws Exception {
 
-		//ObjectA objectA = new ObjectA(1, 2.0f);
+		ObjectA objectA = new ObjectA(1, 2.0f);
 //		ObjectB objectB1 = new ObjectB(true);
 //		ObjectB objectB2 = new ObjectB(false);
 //		objectB1.setOther(objectB2);
@@ -45,11 +44,11 @@ public class XMLSerializer {
 //		b[2] = objectA1;
 //		b[4] = objectA2;
 //		ObjectD objectD = new ObjectD(b);
-		ObjectA objectA = new ObjectA(1, 2.0f);
-		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
-		c.add(objectA);
-		ObjectE objectE = new ObjectE(c);
-		Document d = serializeObject(objectE);
+//		ObjectA objectA = new ObjectA(1, 2.0f);
+//		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
+//		c.add(objectA);
+//		ObjectE objectE = new ObjectE(c);
+		Document d = serializeObject(objectA);
 
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer transformer = tf.newTransformer();
