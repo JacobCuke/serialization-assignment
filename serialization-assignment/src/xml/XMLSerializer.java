@@ -16,6 +16,7 @@ import org.w3c.dom.*;
 
 import json.Serializer;
 import serialization.ObjectA;
+import serialization.ObjectB;
 
 /**
  * CPSC 501 
@@ -28,8 +29,12 @@ public class XMLSerializer {
 
 	public static void main(String[] args) throws Exception {
 
-		ObjectA objectA = new ObjectA(1, 2.0f);
-		Document d = serializeObject(objectA);
+		//ObjectA objectA = new ObjectA(1, 2.0f);
+		ObjectB objectB1 = new ObjectB(true);
+		ObjectB objectB2 = new ObjectB(false);
+		objectB1.setOther(objectB2);
+		objectB2.setOther(objectB1);
+		Document d = serializeObject(objectB1);
 
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer transformer = tf.newTransformer();
@@ -77,10 +82,38 @@ public class XMLSerializer {
 			fieldInfo.setAttribute("declaringclass", f.getDeclaringClass().getName());
 			fieldInfo.setAttribute("name", f.getName());
 
-			Element valueInfo = document.createElement("value");
-			valueInfo.setTextContent(f.get(objectInstance).toString());
-
-			fieldInfo.appendChild(valueInfo);
+			if (f.getType().isPrimitive()) {
+				
+				Element valueInfo = document.createElement("value");
+				valueInfo.setTextContent(f.get(objectInstance).toString());
+				fieldInfo.appendChild(valueInfo);
+				
+			} else {
+				
+				Object ob = f.get(objectInstance);
+				Element referenceInfo = document.createElement("reference");
+				
+				if (ob == null) {
+					referenceInfo.setTextContent("null");
+					fieldInfo.appendChild(referenceInfo);
+					continue;
+				}
+				
+				if (objectTrackingMap.containsKey(ob)) {
+					
+					referenceInfo.setTextContent(objectTrackingMap.get(ob).toString());
+					
+				} else {
+					
+					referenceInfo.setTextContent(Integer.toString(objectTrackingMap.size()));
+					serializeHelper(ob, document, objectTrackingMap);
+					
+				}
+				
+				fieldInfo.appendChild(referenceInfo);
+				
+			}
+			
 			objectInfo.appendChild(fieldInfo);
 
 		}
