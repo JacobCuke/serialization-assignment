@@ -7,6 +7,7 @@ import org.w3c.dom.*;
 
 import serialization.ObjectA;
 import serialization.ObjectB;
+import serialization.ObjectC;
 
 class XMLSerializerTest {
 
@@ -33,6 +34,19 @@ class XMLSerializerTest {
 		Document xml = XMLSerializer.serializeObject(objectB1);
 		
 		String correct = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><serialized><object class=\"serialization.ObjectB\" id=\"1\" type=\"object\"><field declaringclass=\"serialization.ObjectB\" name=\"z\"><value>false</value></field><field declaringclass=\"serialization.ObjectB\" name=\"other\"><reference>0</reference></field></object><object class=\"serialization.ObjectB\" id=\"0\" type=\"object\"><field declaringclass=\"serialization.ObjectB\" name=\"z\"><value>true</value></field><field declaringclass=\"serialization.ObjectB\" name=\"other\"><reference>1</reference></field></object></serialized>";
+		assertEquals(XMLSerializer.xmlToString(xml, false), correct);
+		
+	}
+	
+	@Test
+	void testObjectC() throws Exception {
+		
+		int[] a = {0, 0, 0, 3, 0};
+		ObjectC objectC = new ObjectC(a);
+		
+		Document xml = XMLSerializer.serializeObject(objectC);
+		
+		String correct = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><serialized><object class=\"[I\" id=\"1\" length=\"5\" type=\"array\"><value>0</value><value>0</value><value>0</value><value>3</value><value>0</value></object><object class=\"serialization.ObjectC\" id=\"0\" type=\"object\"><field declaringclass=\"serialization.ObjectC\" name=\"a\"><reference>1</reference></field></object></serialized>";
 		assertEquals(XMLSerializer.xmlToString(xml, false), correct);
 		
 	}

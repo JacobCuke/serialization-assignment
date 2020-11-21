@@ -32,11 +32,9 @@ public class XMLSerializer {
 
 	public static void main(String[] args) throws Exception {
 
-		ObjectB objectB1 = new ObjectB(true);
-		ObjectB objectB2 = new ObjectB(false);
-		objectB1.setOther(objectB2);
-		objectB2.setOther(objectB1);
-		Document d = serializeObject(objectB1);
+		int[] a = {0, 0, 0, 3, 0};
+		ObjectC objectC = new ObjectC(a);
+		Document d = serializeObject(objectC);
 		
 		System.out.println(xmlToString(d, false));
 
