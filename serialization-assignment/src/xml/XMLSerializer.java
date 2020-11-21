@@ -17,6 +17,9 @@ import org.w3c.dom.*;
 import json.Serializer;
 import serialization.ObjectA;
 import serialization.ObjectB;
+import serialization.ObjectC;
+import serialization.ObjectD;
+import serialization.ObjectE;
 
 /**
  * CPSC 501 
@@ -30,11 +33,23 @@ public class XMLSerializer {
 	public static void main(String[] args) throws Exception {
 
 		//ObjectA objectA = new ObjectA(1, 2.0f);
-		ObjectB objectB1 = new ObjectB(true);
-		ObjectB objectB2 = new ObjectB(false);
-		objectB1.setOther(objectB2);
-		objectB2.setOther(objectB1);
-		Document d = serializeObject(objectB1);
+//		ObjectB objectB1 = new ObjectB(true);
+//		ObjectB objectB2 = new ObjectB(false);
+//		objectB1.setOther(objectB2);
+//		objectB2.setOther(objectB1);
+//		int[] a = {23, 144, 0, 7, 90};
+//		ObjectC objectC = new ObjectC(a);
+//		ObjectA objectA1 = new ObjectA(65, 4.23f);
+//		ObjectA objectA2 = new ObjectA(762, 11.6f);
+//		ObjectA[] b = new ObjectA[5];
+//		b[2] = objectA1;
+//		b[4] = objectA2;
+//		ObjectD objectD = new ObjectD(b);
+		ObjectA objectA = new ObjectA(1, 2.0f);
+		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
+		c.add(objectA);
+		ObjectE objectE = new ObjectE(c);
+		Document d = serializeObject(objectE);
 
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer transformer = tf.newTransformer();
@@ -69,6 +84,53 @@ public class XMLSerializer {
 
 		objectInfo.setAttribute("class", objectClass.getName());
 		objectInfo.setAttribute("id", objectID);
+		
+		if (objectClass.isArray()) {
+			
+			objectInfo.setAttribute("type", "array");
+			objectInfo.setAttribute("length", Integer.toString(Array.getLength(objectInstance)));
+			
+			for (int i = 0; i < Array.getLength(objectInstance); i++) {
+				
+				Object e = Array.get(objectInstance, i);
+				
+				if (objectClass.getComponentType().isPrimitive()) {
+					
+					Element entryInfo = document.createElement("value");
+					entryInfo.setTextContent(e.toString());
+					objectInfo.appendChild(entryInfo);
+					
+				} else {
+					
+					Element referenceInfo = document.createElement("reference");
+					
+					if (e == null) {
+						referenceInfo.setTextContent("null");
+						objectInfo.appendChild(referenceInfo);
+						continue;
+					}
+					
+					if (objectTrackingMap.containsKey(e)) {
+
+						referenceInfo.setTextContent(objectTrackingMap.get(e).toString());
+
+					} else {
+
+						referenceInfo.setTextContent(Integer.toString(objectTrackingMap.size()));
+						serializeHelper(e, document, objectTrackingMap);
+
+					}
+					
+					objectInfo.appendChild(referenceInfo);
+					
+				}
+				
+			}
+			
+			document.getDocumentElement().appendChild(objectInfo);
+			return document;
+		}
+		
 		objectInfo.setAttribute("type", "object");
 
 		// Fields
