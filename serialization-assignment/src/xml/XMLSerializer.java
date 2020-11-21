@@ -7,6 +7,7 @@ import java.util.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -49,18 +50,7 @@ public class XMLSerializer {
 //		c.add(objectA);
 //		ObjectE objectE = new ObjectE(c);
 		Document d = serializeObject(objectA);
-
-		TransformerFactory tf = TransformerFactory.newInstance();
-		Transformer transformer = tf.newTransformer();
-
-		StringWriter writer = new StringWriter();
-
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-		transformer.transform(new DOMSource(d), new StreamResult(writer));
-
-		String xmlString = writer.getBuffer().toString();
-		System.out.println(xmlString);
+		printXMLDocument(d, true);
 
 	}
 
@@ -182,6 +172,24 @@ public class XMLSerializer {
 		document.getDocumentElement().appendChild(objectInfo);
 		return document;
 
+	}
+	
+	public static void printXMLDocument(Document d, boolean prettyPrint) throws Exception {
+		
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer = tf.newTransformer();
+
+		StringWriter writer = new StringWriter();
+
+		if (prettyPrint) {
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+		}
+		transformer.transform(new DOMSource(d), new StreamResult(writer));
+
+		String xmlString = writer.getBuffer().toString();
+		System.out.println(xmlString);
+		
 	}
 
 }
