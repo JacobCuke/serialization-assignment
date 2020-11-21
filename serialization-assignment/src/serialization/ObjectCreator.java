@@ -75,19 +75,24 @@ public class ObjectCreator {
 					
 					switch (choice) {
 					case 1:
-						sendObjectA();
+						ObjectA objectA = createObjectA();
+						sendObject(objectA);
 						break;
 					case 2:
-						sendObjectB();
+						ObjectB objectB = createObjectB();
+						sendObject(objectB);
 						break;
 					case 3:
-						sendObjectC();
+						ObjectC objectC = createObjectC();
+						sendObject(objectC);
 						break;
 					case 4:
-						sendObjectD();
+						ObjectD objectD = createObjectD();
+						sendObject(objectD);
 						break;
 					case 5:
-						sendObjectE();
+						ObjectE objectE = createObjectE();
+						sendObject(objectE);
 						break;
 					case 6:
 						quit = true;
@@ -105,13 +110,9 @@ public class ObjectCreator {
 		scan.close();
 		
 		// Tell client to quit
-		JsonObjectBuilder baseObject = Json.createObjectBuilder();
-		baseObject.add("quit", "");
-		JsonObject jsonQuit = baseObject.build();
-		
 		System.out.println("Closing connection...");
 		try {
-			sendObject(jsonQuit);
+			closeClient();
 			closeConnection();
 		} catch (IOException e) {
 			System.err.println("Error closing socket connection");
@@ -122,7 +123,7 @@ public class ObjectCreator {
 		
 	}
 	
-	private void sendObjectA() throws Exception {
+	private ObjectA createObjectA() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -146,22 +147,10 @@ public class ObjectCreator {
 		scan.nextLine();
 		
 		ObjectA objectA = new ObjectA(x, y);
-		
-		System.out.println("Object Created");
-		System.out.println();
-		
-		System.out.println("Serializing");
-		JsonObject json = Serializer.serializeObject(objectA);
-		
-		// TODO: sendObject(JsonObject json)
-		System.out.println("Sending object");
-		System.out.println(json.toString());
-		sendObject(json);
-		System.out.println();
-		
+		return objectA;
 	}
 	
-	private void sendObjectB() throws Exception {
+	private ObjectB createObjectB() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -190,21 +179,10 @@ public class ObjectCreator {
 		objectB1.setOther(objectB2);
 		objectB2.setOther(objectB1);
 		
-		System.out.println("Object Created");
-		System.out.println();
-		
-		System.out.println("Serializing");
-		JsonObject json = Serializer.serializeObject(objectB1);
-		
-		// TODO: sendObject(JsonObject json)
-		System.out.println("Sending object");
-		System.out.println(json.toString());
-		sendObject(json);
-		System.out.println();
-		
+		return objectB1;
 	}
 	
-	private void sendObjectC() throws Exception {
+	private ObjectC createObjectC() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -224,22 +202,10 @@ public class ObjectCreator {
 		}
 		
 		ObjectC objectC = new ObjectC(a);
-		
-		System.out.println("Object Created");
-		System.out.println();
-		
-		System.out.println("Serializing");
-		JsonObject json = Serializer.serializeObject(objectC);
-		
-		// TODO: sendObject(JsonObject json)
-		System.out.println("Sending object");
-		System.out.println(json.toString());
-		sendObject(json);
-		System.out.println();
-		
+		return objectC;
 	}
 	
-	private void sendObjectD() throws Exception {
+	private ObjectD createObjectD() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -267,22 +233,10 @@ public class ObjectCreator {
 		b[3] = objectA;
 		
 		ObjectD objectD = new ObjectD(b);
-		
-		System.out.println("Object Created");
-		System.out.println();
-		
-		System.out.println("Serializing");
-		JsonObject json = Serializer.serializeObject(objectD);
-		
-		// TODO: sendObject(JsonObject json)
-		System.out.println("Sending object");
-		System.out.println(json.toString());
-		sendObject(json);
-		System.out.println();
-		
+		return objectD;
 	}
 	
-	private void sendObjectE() throws Exception {
+	private ObjectE createObjectE() throws Exception {
 		
 		Scanner scan = getScanner();
 		System.out.println("Creating Object...");
@@ -310,25 +264,31 @@ public class ObjectCreator {
 		c.add(objectA);
 		
 		ObjectE objectE = new ObjectE(c);
-		
-		System.out.println("Object Created");
-		System.out.println();
-		
-		// TODO: Serialize
-		System.out.println("Serializing");
-		JsonObject json = Serializer.serializeObject(objectE);
-		
-		// TODO: sendObject(JsonObject json)
-		System.out.println("Sending object");
-		System.out.println(json.toString());
-		sendObject(json);
-		System.out.println();;
+		return objectE;
 	}
 	
-	private void sendObject(JsonObject json) throws IOException {
+	private void sendObject(Object object) throws Exception {
+		
+		System.out.println("Serializing");
+		JsonObject json = Serializer.serializeObject(object);
+		
+		System.out.println("Sending object");
+		System.out.println(json.toString());
 		
 		JsonWriter jsonWriter = Json.createWriter(clientSocket.getOutputStream());
 		jsonWriter.writeObject(json);
+		System.out.println();
+		
+	}
+	
+	private void closeClient() throws IOException {
+		
+		JsonWriter jsonWriter = Json.createWriter(clientSocket.getOutputStream());
+		
+		JsonObjectBuilder baseObject = Json.createObjectBuilder();
+		baseObject.add("quit", "");
+		JsonObject jsonQuit = baseObject.build();
+		jsonWriter.writeObject(jsonQuit);
 		
 	}
 	
