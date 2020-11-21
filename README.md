@@ -1,4 +1,4 @@
-# CPSC 501 Assignment 2 - Reflection
+# CPSC 501 Assignment 3 - Serialization
 
 All source code can be found in `serialization-assignment/src`
 
