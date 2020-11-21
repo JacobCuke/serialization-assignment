@@ -32,25 +32,13 @@ public class XMLSerializer {
 
 	public static void main(String[] args) throws Exception {
 
-		ObjectA objectA = new ObjectA(1, 2.0f);
-//		ObjectB objectB1 = new ObjectB(true);
-//		ObjectB objectB2 = new ObjectB(false);
-//		objectB1.setOther(objectB2);
-//		objectB2.setOther(objectB1);
-//		int[] a = {23, 144, 0, 7, 90};
-//		ObjectC objectC = new ObjectC(a);
-//		ObjectA objectA1 = new ObjectA(65, 4.23f);
-//		ObjectA objectA2 = new ObjectA(762, 11.6f);
-//		ObjectA[] b = new ObjectA[5];
-//		b[2] = objectA1;
-//		b[4] = objectA2;
-//		ObjectD objectD = new ObjectD(b);
-//		ObjectA objectA = new ObjectA(1, 2.0f);
-//		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
-//		c.add(objectA);
-//		ObjectE objectE = new ObjectE(c);
-		Document d = serializeObject(objectA);
-		System.out.println(xmlToString(d, true));
+		ObjectB objectB1 = new ObjectB(true);
+		ObjectB objectB2 = new ObjectB(false);
+		objectB1.setOther(objectB2);
+		objectB2.setOther(objectB1);
+		Document d = serializeObject(objectB1);
+		
+		System.out.println(xmlToString(d, false));
 
 	}
 
