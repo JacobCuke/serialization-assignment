@@ -62,8 +62,8 @@ class SerializerTest {
 		ObjectA objectA = new ObjectA(1, 2.0f);
 		ObjectA[] b = new ObjectA[5];
 		b[3] = objectA;
-		
 		ObjectD objectD = new ObjectD(b);
+		
 		JsonObject json = Serializer.serializeObject(objectD);
 		
 		String correct = "{\"objects\":[{\"class\":\"serialization.ObjectA\",\"id\":\"2\",\"type\":\"object\",\"fields\":[{\"name\":\"x\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"1\"},{\"name\":\"y\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"2.0\"}]},{\"class\":\"[Lserialization.ObjectA;\",\"id\":\"1\",\"type\":\"array\",\"length\":\"5\",\"entries\":[{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"2\"},{\"reference\":\"null\"}]},{\"class\":\"serialization.ObjectD\",\"id\":\"0\",\"type\":\"object\",\"fields\":[{\"name\":\"b\",\"declaringclass\":\"serialization.ObjectD\",\"reference\":\"1\"}]}]}";
@@ -77,8 +77,8 @@ class SerializerTest {
 		ObjectA objectA = new ObjectA(1, 2.0f);
 		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
 		c.add(objectA);
-		
 		ObjectE objectE = new ObjectE(c);
+		
 		JsonObject json = Serializer.serializeObject(objectE);
 		
 		String correct = "{\"objects\":[{\"class\":\"serialization.ObjectA\",\"id\":\"3\",\"type\":\"object\",\"fields\":[{\"name\":\"x\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"1\"},{\"name\":\"y\",\"declaringclass\":\"serialization.ObjectA\",\"value\":\"2.0\"}]},{\"class\":\"[Ljava.lang.Object;\",\"id\":\"2\",\"type\":\"array\",\"length\":\"10\",\"entries\":[{\"reference\":\"3\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"},{\"reference\":\"null\"}]},{\"class\":\"java.util.ArrayList\",\"id\":\"1\",\"type\":\"object\",\"fields\":[{\"name\":\"elementData\",\"declaringclass\":\"java.util.ArrayList\",\"reference\":\"2\"},{\"name\":\"size\",\"declaringclass\":\"java.util.ArrayList\",\"value\":\"1\"},{\"name\":\"modCount\",\"declaringclass\":\"java.util.AbstractList\",\"value\":\"1\"}]},{\"class\":\"serialization.ObjectE\",\"id\":\"0\",\"type\":\"object\",\"fields\":[{\"name\":\"c\",\"declaringclass\":\"serialization.ObjectE\",\"reference\":\"1\"}]}]}";
