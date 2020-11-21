@@ -33,10 +33,10 @@ public class XMLSerializer {
 	public static void main(String[] args) throws Exception {
 
 		ObjectA objectA = new ObjectA(1, 2.0f);
-		ObjectA[] b = new ObjectA[5];
-		b[3] = objectA;
-		ObjectD objectD = new ObjectD(b);
-		Document d = serializeObject(objectD);
+		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
+		c.add(objectA);
+		ObjectE objectE = new ObjectE(c);
+		Document d = serializeObject(objectE);
 		
 		System.out.println(xmlToString(d, false));
 
