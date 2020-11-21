@@ -50,7 +50,7 @@ public class XMLSerializer {
 //		c.add(objectA);
 //		ObjectE objectE = new ObjectE(c);
 		Document d = serializeObject(objectA);
-		printXMLDocument(d, true);
+		System.out.println(xmlToString(d, true));
 
 	}
 
@@ -174,7 +174,7 @@ public class XMLSerializer {
 
 	}
 	
-	public static void printXMLDocument(Document d, boolean prettyPrint) throws Exception {
+	public static String xmlToString(Document d, boolean prettyPrint) throws Exception {
 		
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer transformer = tf.newTransformer();
@@ -188,7 +188,7 @@ public class XMLSerializer {
 		transformer.transform(new DOMSource(d), new StreamResult(writer));
 
 		String xmlString = writer.getBuffer().toString();
-		System.out.println(xmlString);
+		return xmlString;
 		
 	}
 
