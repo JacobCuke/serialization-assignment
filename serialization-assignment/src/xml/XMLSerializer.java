@@ -7,7 +7,6 @@ import java.util.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -15,11 +14,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 
 import json.Serializer;
-import serialization.ObjectA;
-import serialization.ObjectB;
-import serialization.ObjectC;
-import serialization.ObjectD;
-import serialization.ObjectE;
 
 /**
  * CPSC 501 
@@ -29,18 +23,6 @@ import serialization.ObjectE;
  * @author Jacob Cuke
  */
 public class XMLSerializer {
-
-	public static void main(String[] args) throws Exception {
-
-		ObjectA objectA = new ObjectA(1, 2.0f);
-		ArrayList<ObjectA> c = new ArrayList<ObjectA>();
-		c.add(objectA);
-		ObjectE objectE = new ObjectE(c);
-		Document d = serializeObject(objectE);
-		
-		System.out.println(xmlToString(d, false));
-
-	}
 
 	public static Document serializeObject(Object objectInstance) throws Exception {
 
