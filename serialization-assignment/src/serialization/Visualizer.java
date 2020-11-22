@@ -55,7 +55,7 @@ public class Visualizer {
 				
 				System.out.println();
 				System.out.println("New XML document arrived");
-				System.out.println(XMLSerializer.xmlToString(xml, false));
+				System.out.println(XMLSerializer.xmlToString(xml, true));
 
 				System.out.println("Deserializing");
 				object = XMLDeserializer.deserializeObject(xml);
@@ -64,7 +64,7 @@ public class Visualizer {
 
 				System.out.println();
 				System.out.println("New JSON object arrived");
-				System.out.println(json.toString());
+				System.out.println(Serializer.jsonToString(json, true));
 
 				System.out.println("Deserializing");
 				object = Deserializer.deserializeObject(json);

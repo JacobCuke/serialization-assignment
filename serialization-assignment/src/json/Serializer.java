@@ -1,10 +1,12 @@
 package json;
 
+import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import javax.json.*;
+import javax.json.stream.JsonGenerator;
 
 /**
  * CPSC 501 
@@ -154,6 +156,22 @@ public class Serializer {
 
 		return fields;
 
+	}
+	
+	public static String jsonToString(JsonObject json, Boolean prettyPrint) throws Exception {
+		
+		Map<String, Boolean> config = new HashMap<String, Boolean>();
+		if (prettyPrint) {
+			config.put(JsonGenerator.PRETTY_PRINTING, prettyPrint);
+		}
+		
+		StringWriter sw = new StringWriter();
+		JsonWriterFactory writerFactory = Json.createWriterFactory(config);
+		JsonWriter jsonWriter = writerFactory.createWriter(sw);
+		jsonWriter.writeObject(json);
+		
+		return sw.getBuffer().toString();
+		
 	}
 
 }

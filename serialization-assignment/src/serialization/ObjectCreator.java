@@ -303,7 +303,7 @@ public class ObjectCreator {
 			JsonObject json = Serializer.serializeObject(object);
 
 			System.out.println("Sending JSON object");
-			System.out.println(json.toString());
+			System.out.println(Serializer.jsonToString(json, true));
 			
 			JsonWriter jsonWriter = Json.createWriter(clientSocket.getOutputStream());
 			jsonWriter.writeObject(json);

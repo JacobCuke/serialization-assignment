@@ -157,8 +157,7 @@ public class XMLSerializer {
 		}
 		transformer.transform(new DOMSource(d), new StreamResult(writer));
 
-		String xmlString = writer.getBuffer().toString();
-		return xmlString;
+		return writer.getBuffer().toString();
 		
 	}
 
