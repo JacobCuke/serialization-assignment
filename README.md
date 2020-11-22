@@ -4,6 +4,18 @@ All source code can be found in `serialization-assignment/src`
 
 *Bonus code can be found in* `serialization-assignment/src/xml`
 
+## Run Instructions
+
+Run ObjectCreator.java first, which will wait until the Visualizer client joins.
+
+Next, run Visualizer.java, which will connect to the ObjectCreator server socket.
+
+ObjectCreator will spawn a menu that allows you to choose what kind of object to send, the primitive values of that object, and whether or not to send the object as a JSON object or an XML document.
+
+Visualizer will recieve the data over a socket, and after deserializing the object, will display its contents to the console using reflection.
+
+To quit both programs, choose quit (option 6) from the ObjectCreator menu, which will let the client know to quit as well.
+
 ## Unit Testing
 
 I have created 4 JUnit test files, to test the outputs of both the JSON and XML serializers and deserializers.
@@ -14,9 +26,9 @@ The code was tested using JUnit 5 (Jupiter). Test files can be found in `seriali
 
 ### Duplicate Code
 
-I noticed that I had quite a lot of duplicated code in `ObjectCreator.java`. I had a seperate sendObjectX method for each of the 5 objects, when in reality it is only the creation code that is different for each object, and the code to send each object is exactly the same.
+I noticed that I had quite a lot of duplicated code in `ObjectCreator.java`. I had a seperate sendObjectX method for each of the 5 objects, when in reality only the creation code was different for each object, and the code to send each object was exactly the same.
 
-`sendObjectA()` and `sendObjectB()` below as an example
+`sendObjectA()` and `sendObjectB()` shown below as an example
 
 ```java
 private void sendObjectA() throws Exception {
@@ -102,7 +114,7 @@ private void sendObjectB() throws Exception {
 }
 ```
 
-These methods are called based on the user's choice at the menu
+These methods are called based on the user's choice at the menu.
 
 ```java				
 switch (choice) {
@@ -209,4 +221,4 @@ case 6:
 
 See commit: `93ea94b7473ca9ecf1bf89b04a3e438b4a10b811`
 
-Not only does this refactoring make the code shorter, more organized and easier to read, but it allows us to add on additional functionaility much more easily. After this refactoring, code to allow the user to choose between JSON and XML serialization needs to be added. If we had not done this refactoring, this code would have had to be added 5 seperate times in each of the `sendObjectX()` functions. Now, this code need only be added once into the `sendObject` method. 
+Not only does this refactoring make the code shorter, more organized and easier to read, but it allows us to add on additional functionaility much more easily. After this refactoring, code to allow the user to choose between JSON and XML serialization needed to be added. If we had not done this refactoring, this code would have had to be added 5 seperate times in each of the `sendObjectX()` functions. Now, this code need only be added once into the `sendObject` method. 
