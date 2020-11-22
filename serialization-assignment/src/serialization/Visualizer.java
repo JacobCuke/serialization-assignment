@@ -1,6 +1,7 @@
 package serialization;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -11,9 +12,16 @@ import java.util.ArrayList;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import json.Deserializer;
 import json.Serializer;
+import xml.XMLDeserializer;
+import xml.XMLSerializer;
 
 public class Visualizer {
 
@@ -22,37 +30,56 @@ public class Visualizer {
 
 	public static void main(String args[]) throws Exception {
 
-		// TODO: Read in JSON object from socket
 		Visualizer vis = new Visualizer();
 		vis.startConnection();
-		
+
 		System.out.println("Connected to server");
 		System.out.println("Waiting for objects...");
-		
+
 		while (true) {
-			
+
 			// Read
-			JsonObject json = vis.readObject();
+			JsonObject json = vis.readJSONObject();
 			if (json.containsKey("quit")) {
 				break;
 			}
-			
-			System.out.println();
-			System.out.println("New object arrived");
-			System.out.println(json.toString());
-			
-			System.out.println("Deserializing");
-			Object object = Deserializer.deserializeObject(json);
-			
+
+			Object object = null;
+
+			if (json.containsKey("xml")) {
+				
+				DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		        InputSource is = new InputSource(new StringReader(json.getString("xml")));
+		        Document xml = documentBuilder.parse(is);
+				
+				System.out.println();
+				System.out.println("New XML document arrived");
+				System.out.println(XMLSerializer.xmlToString(xml, false));
+
+				System.out.println("Deserializing");
+				object = XMLDeserializer.deserializeObject(xml);
+
+			} else {
+
+				System.out.println();
+				System.out.println("New JSON object arrived");
+				System.out.println(json.toString());
+
+				System.out.println("Deserializing");
+				object = Deserializer.deserializeObject(json);
+
+			}
+
 			System.out.println("Inspecting");
 			System.out.println();
 			vis.inspect(object);
-			
+
 			System.out.println();
 			System.out.println("Waiting for objects...");
-			
+
 		}
-		
+
 		System.out.println("Closing connection...");
 		vis.closeConnection();
 		System.out.println("Connection closed");
@@ -256,24 +283,24 @@ public class Visualizer {
 		}
 		System.out.print(string);
 	}
-	
+
 	private void startConnection() throws UnknownHostException, IOException {
-		
+
 		clientSocket = new Socket("127.0.0.1", 6666);
-		
+
 	}
-	
+
 	private void closeConnection() throws IOException {
-		
+
 		clientSocket.close();
-		
+
 	}
-	
-	private JsonObject readObject() throws IOException {
-		
+
+	private JsonObject readJSONObject() throws IOException {
+
 		JsonReader jsonReader = Json.createReader(clientSocket.getInputStream());
 		return jsonReader.readObject();
-	
+
 	}
 
 }
