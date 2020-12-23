@@ -83,7 +83,6 @@ public class Deserializer {
 					
 					Class<?> fieldType = field.getType();
 					
-					// TODO: Handle more primitive types
 					if (fieldType.equals(Integer.TYPE)) {
 						
 						field.set(objectInstance, Integer.parseInt(fieldInfo.getString("value")));
@@ -95,6 +94,26 @@ public class Deserializer {
 					} else if (fieldType.equals(Boolean.TYPE)) {
 						
 						field.set(objectInstance, Boolean.parseBoolean(fieldInfo.getString("value")));
+						
+					} else if (fieldType.equals(Double.TYPE)) {
+						
+						field.set(objectInstance, Double.parseDouble(fieldInfo.getString("value")));
+						
+					} else if (fieldType.equals(Long.TYPE)) {
+						
+						field.set(objectInstance, Long.parseLong(fieldInfo.getString("value")));
+						
+					} else if (fieldType.equals(Short.TYPE)) {
+						
+						field.set(objectInstance, Short.parseShort(fieldInfo.getString("value")));
+						
+					} else if (fieldType.equals(Byte.TYPE)) {
+						
+						field.set(objectInstance, Byte.parseByte(fieldInfo.getString("value")));
+						
+					} else if (fieldType.equals(Character.TYPE)) {
+						
+						field.set(objectInstance, fieldInfo.getString("value").charAt(0));
 						
 					}
 					
@@ -127,7 +146,6 @@ public class Deserializer {
 			
 			if (entryInfo.containsKey("value")) {
 				
-				// TODO: Handle more primitive types
 				if (componentType.equals(Integer.TYPE)) {
 					
 					Array.set(objectInstance, i, Integer.parseInt(entryInfo.getString("value")));
@@ -139,6 +157,26 @@ public class Deserializer {
 				} else if (componentType.equals(Boolean.TYPE)) {
 					
 					Array.set(objectInstance, i, Boolean.parseBoolean(entryInfo.getString("value")));
+					
+				} else if (componentType.equals(Double.TYPE)) {
+					
+					Array.set(objectInstance, i, Double.parseDouble(entryInfo.getString("value")));
+					
+				} else if (componentType.equals(Long.TYPE)) {
+					
+					Array.set(objectInstance, i, Long.parseLong(entryInfo.getString("value")));
+					
+				} else if (componentType.equals(Short.TYPE)) {
+					
+					Array.set(objectInstance, i, Short.parseShort(entryInfo.getString("value")));
+					
+				} else if (componentType.equals(Byte.TYPE)) {
+					
+					Array.set(objectInstance, i, Byte.parseByte(entryInfo.getString("value")));
+					
+				} else if (componentType.equals(Character.TYPE)) {
+					
+					Array.set(objectInstance, i, entryInfo.getString("value").charAt(0));
 					
 				}
 				

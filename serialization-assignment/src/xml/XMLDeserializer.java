@@ -93,7 +93,6 @@ public class XMLDeserializer {
 					
 					Class<?> fieldType = field.getType();
 					
-					// TODO: Handle more primitive types
 					if (fieldType.equals(Integer.TYPE)) {
 						
 						field.set(objectInstance, Integer.parseInt(dataInfo.getTextContent()));
@@ -105,6 +104,26 @@ public class XMLDeserializer {
 					} else if (fieldType.equals(Boolean.TYPE)) {
 						
 						field.set(objectInstance, Boolean.parseBoolean(dataInfo.getTextContent()));
+						
+					} else if (fieldType.equals(Double.TYPE)) {
+						
+						field.set(objectInstance, Double.parseDouble(dataInfo.getTextContent()));
+						
+					} else if (fieldType.equals(Long.TYPE)) {
+						
+						field.set(objectInstance, Long.parseLong(dataInfo.getTextContent()));
+						
+					} else if (fieldType.equals(Short.TYPE)) {
+						
+						field.set(objectInstance, Short.parseShort(dataInfo.getTextContent()));
+						
+					} else if (fieldType.equals(Byte.TYPE)) {
+						
+						field.set(objectInstance, Byte.parseByte(dataInfo.getTextContent()));
+						
+					} else if (fieldType.equals(Character.TYPE)) {
+						
+						field.set(objectInstance, dataInfo.getTextContent().charAt(0));
 						
 					}
 					
@@ -139,7 +158,6 @@ public class XMLDeserializer {
 			
 			if (entryInfo.getTagName().equals("value")) {
 				
-				// TODO: Handle more primitive types
 				if (componentType.equals(Integer.TYPE)) {
 					
 					Array.set(objectInstance, i, Integer.parseInt(entryInfo.getTextContent()));
@@ -151,6 +169,26 @@ public class XMLDeserializer {
 				} else if (componentType.equals(Boolean.TYPE)) {
 					
 					Array.set(objectInstance, i, Boolean.parseBoolean(entryInfo.getTextContent()));
+					
+				} else if (componentType.equals(Double.TYPE)) {
+					
+					Array.set(objectInstance, i, Double.parseDouble(entryInfo.getTextContent()));
+					
+				} else if (componentType.equals(Long.TYPE)) {
+					
+					Array.set(objectInstance, i, Long.parseLong(entryInfo.getTextContent()));
+					
+				} else if (componentType.equals(Short.TYPE)) {
+					
+					Array.set(objectInstance, i, Short.parseShort(entryInfo.getTextContent()));
+					
+				} else if (componentType.equals(Byte.TYPE)) {
+					
+					Array.set(objectInstance, i, Byte.parseByte(entryInfo.getTextContent()));
+					
+				} else if (componentType.equals(Character.TYPE)) {
+					
+					Array.set(objectInstance, i, entryInfo.getTextContent().charAt(0));
 					
 				}
 				
