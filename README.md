@@ -1,4 +1,4 @@
-# CPSC 501 Assignment 3 - Serialization
+# Serialization Assignment
 
 All source code can be found in `serialization-assignment/src`
 
